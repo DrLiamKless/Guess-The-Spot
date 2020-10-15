@@ -4,8 +4,8 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 require('dotenv').config()
 
 const mapStyle = {
-    width: '250px',
-    height: '280px'
+    width: '100vw',
+    height: '100vh'
     };
     
 const defaultCenter = { lat: 31.45, lng: 35 };
@@ -26,7 +26,7 @@ function Map({ spotToGuess, spotGuessed, HandleGuess }) {
               options={options}
               mapContainerStyle={mapStyle}
               center={defaultCenter}
-              zoom={6.3}
+              zoom={7.3}
               onClick={(e)=> {HandleGuess(e.latLng.lat(), e.latLng.lng());}}
             >
             {/* {spotToGuess &&

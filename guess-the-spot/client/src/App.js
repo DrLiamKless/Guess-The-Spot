@@ -7,8 +7,6 @@ import Game from './Components/pages/Game'
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-      </header>
       <Game/>
     </div>
   );
