@@ -5,14 +5,14 @@ import Controllers from '../Controllers';
 import places from '../../data/places.json';
 const getAbsoluteDistance = require('../../helpers/getAbsoluteDistance')
 
-function Game() {
+function Game({ started }) {
 
     const [spotToGuess, setSpotToGuess] = useState();
     const [spotGuessed, setSpotGuessed] = useState();
     const [guessDistance, setGuessDistance] = useState();
     const [winner, setWinner] = useState(null);
 
-    const startGame = (spotId) => {
+    const getSpotToGuess = (spotId) => {
         setSpotToGuess(places[spotId]);
         setSpotGuessed(null);
     }
@@ -39,14 +39,15 @@ function Game() {
     <div className="game">
 
         <div className="game-controllers">
-            
-            <Controllers startGame={startGame}>
+            <Controllers
+            getSpotToGuess={getSpotToGuess}
+            spotToGuess={spotToGuess}
+            spotGuessed={spotGuessed}
+            winner={winner}
+            guessDistance={guessDistance}
+            setSpotGuessed={setSpotGuessed}
+            started={started}>
             </Controllers>
-
-        {spotToGuess && <h4>{spotToGuess.name}</h4>}
-        { winner === null ? <h4>Press Start To begin</h4> 
-        : winner === false ? <h4>{guessDistance} KM far... give it another try!</h4> 
-        : <h4>Great! only {guessDistance} KM</h4> }
         </div>
 
         <Map 
