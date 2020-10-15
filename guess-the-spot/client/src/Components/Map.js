@@ -4,30 +4,40 @@ import { GoogleMap, LoadScript, Marker } from '@react-google-maps/api';
 require('dotenv').config()
 
 const mapStyle = {
-    width: '500px',
+    width: '250px',
     height: '280px'
     };
     
 const defaultCenter = { lat: 31.45, lng: 35 };
 
+const options = {
+    // gestureHandling: "none",
+    // zoomControl: false,
+} 
 
 
-function Map() {
+
+function Map({ spotToGuess, spotGuessed, HandleGuess }) {
 
   return (
-<div className="map-container">
-    <LoadScript googleMapsApiKey={process.env.KEY}>
-        <GoogleMap
-        mapContainerStyle={mapStyle}
-        center={defaultCenter}
-        zoom={7}>
-        </GoogleMap>
-        <Marker
-      position={{ lat: 31.45, lng: 35 }}
-    />
-
-    </LoadScript>
-</div>
+    <div className="map-container">
+        <LoadScript googleMapsApiKey={process.env.KEY}>
+            <GoogleMap
+              options={options}
+              mapContainerStyle={mapStyle}
+              center={defaultCenter}
+              zoom={6.3}
+              onClick={(e)=> {HandleGuess(e.latLng.lat(), e.latLng.lng());}}
+            >
+            {/* {spotToGuess &&
+            <Marker position={{lat: spotToGuess["lat"], lng: spotToGuess["lng"]}}></Marker>
+            } */}
+            {spotGuessed &&
+            <Marker position={{lat: spotGuessed["lat"], lng: spotGuessed["lng"]}}></Marker>
+            }
+            </GoogleMap>
+        </LoadScript>
+    </div>
   );
 }
 
