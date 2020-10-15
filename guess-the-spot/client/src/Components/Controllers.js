@@ -10,14 +10,12 @@ const cardStyle = {
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
-    justifyContent: 'center',
-    marginLeft: '10vh',
-    marginTop: '10vh',
-    zIndex: '2',
     fontSize: '15px',
-    width: '25vw',
     height: '50vh',
     width: '20vw',
+    borderRadius: '10%',
+    border: 'solid 1px black',
+    boxShadow: '1px 1px 7px 1px rgb(52,58,64)'
   }
 
 

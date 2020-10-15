@@ -24,14 +24,9 @@
   position:fixed;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
   margin-left: 10vh;
-  margin-top: 10vh;
+  margin-top: 20vh;
   z-index: 2;
-  font-size: 15px;
-  width: 25vw;
-  height: 400px;
 }
 
 .spot-to-guess{

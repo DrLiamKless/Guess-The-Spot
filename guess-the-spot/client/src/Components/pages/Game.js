@@ -3,6 +3,7 @@ import '../../App.css';
 import Map from '../Map';
 import Controllers from '../Controllers';
 import places from '../../data/places.json';
+import Draggable, {DraggableCore} from 'react-draggable';
 const getAbsoluteDistance = require('../../helpers/getAbsoluteDistance')
 
 function Game({ started }) {
@@ -37,18 +38,20 @@ function Game({ started }) {
 
   return (
     <div className="game">
-
-        <div className="game-controllers">
-            <Controllers
-            getSpotToGuess={getSpotToGuess}
-            spotToGuess={spotToGuess}
-            spotGuessed={spotGuessed}
-            winner={winner}
-            guessDistance={guessDistance}
-            setSpotGuessed={setSpotGuessed}
-            started={started}>
-            </Controllers>
-        </div>
+        
+        <Draggable>
+            <div className="game-controllers">
+                    <Controllers
+                    getSpotToGuess={getSpotToGuess}
+                    spotToGuess={spotToGuess}
+                    spotGuessed={spotGuessed}
+                    winner={winner}
+                    guessDistance={guessDistance}
+                    setSpotGuessed={setSpotGuessed}
+                    started={started}>
+                    </Controllers>
+            </div>
+        </Draggable>
 
         <Map 
         HandleGuess={HandleGuess}
