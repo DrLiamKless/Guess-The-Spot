@@ -20,6 +20,10 @@
   height: 100vh;
 }
 
+.starting-modal{
+  text-align: center;
+}
+
 .game-controllers{
   position:fixed;
   display: flex;
@@ -30,7 +34,7 @@
 }
 
 .spot-to-guess{
-  background-color: rgba(54,173,81,0.1);
+  background-color: rgba(54,173,81,0.2);
   height: 20%;
   width: 100%;
   margin-top: 5vh;
@@ -42,7 +46,10 @@
 
 .messages{
   height: 40%;
-  width: 15vw;
+  min-width: 230px;
+  max-width: 230px;
+  min-height: 90px;  
+  max-height: 90px;  
   border: dotted rgba(54,173,81,0.9);
   margin-top: 10px;
 }
@@ -51,4 +58,19 @@
   display: flex;
   flex-direction: row;
   justify-content: space-around;
+}
+
+.nav-bar {
+  width: 100%;
+  height: 60px;
+  border-radius: 15px;
+  background-image: linear-gradient( to bottom, rgba(54,173,81,0.9),  #282c34);
+  /* box-shadow: 0.1px 0.1px 4px 1px rgb(52,58,64); */
+}
+
+.selector {
+  display: flex;
+  flex-direction: column;
+  margin-left: 15px;
+  margin-bottom: 3px;
 }
