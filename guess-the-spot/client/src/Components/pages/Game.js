@@ -84,7 +84,8 @@ function Game({ started }) {
         HandleGuess={HandleGuess}
         places={places}
         spotToGuess={spotToGuess}
-        spotGuessed={spotGuessed}>
+        spotGuessed={spotGuessed}
+        guessDistance={guessDistance}>
         </Map>
 
     </div>
