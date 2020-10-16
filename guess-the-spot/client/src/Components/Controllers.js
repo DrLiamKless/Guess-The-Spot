@@ -18,7 +18,7 @@ const cardStyle = {
   }
 
 
-function Controllers({ started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance, setPrefernces, preferences }) {
+function Controllers({ message ,started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance, setPrefernces, preferences }) {
 
     useEffect(() => {
         if(started) {
@@ -38,7 +38,6 @@ function Controllers({ started, getSpotToGuess, spotToGuess, spotGuessed, setSpo
         preferences.level === 'easy' ? Math.floor(Math.random() * 377) 
         : preferences.level === 'med' ? Math.floor(Math.random() * 708)
         : preferences.level ==='hard' && Math.floor(Math.random() * 1180)
-
     )
 
 
@@ -64,7 +63,7 @@ function Controllers({ started, getSpotToGuess, spotToGuess, spotGuessed, setSpo
                             </div> 
                         : winner === false && 
                             <div className="failure-message">
-                                <h6>{guessDistance} KM far... <br/>give it another try!</h6>
+                                {message}
                                 <div className="failure-buttons">
                                     <Button size='sm' variant="outline-warning" onClick={()=>{tryAgain()}}>Try Again</Button>
                                     <Button size='sm' variant="outline-danger" onClick={()=>{next()}}>Next</Button>
@@ -73,7 +72,7 @@ function Controllers({ started, getSpotToGuess, spotToGuess, spotGuessed, setSpo
                     }
                     { winner === true &&
                     <div> 
-                        <h6>Great! only {guessDistance} KM</h6>
+                        {message}
                         <Button size='sm' variant="success" onClick={()=>{next()}}>Another One!</Button> 
                     </div>
                     }

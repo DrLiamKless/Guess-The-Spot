@@ -13,17 +13,28 @@ function Game({ started }) {
     const [spotToGuess, setSpotToGuess] = useState();
     const [spotGuessed, setSpotGuessed] = useState();
     const [guessDistance, setGuessDistance] = useState();
-    const [preferences, setPrefernces] = useState();
+    const [preferences, setPrefernces] = useState({level: 'easy', distance:'absolute', units: 'km'});
+    const [message, setMessage] = useState();
     const [winner, setWinner] = useState(null);
+
+    const createMessage = (distance) => {
+        const messages = preferences && {
+            winner:
+            preferences.units === 'km' ? `Great! only ${distance} KM far!!` : 
+            `Great! only ${distance} miles far!!`,
+            loser:
+            preferences.units === 'km' ? `${distance} KM far... <br/>give it another try!` :
+            `${distance} Miles far... <br/>give it another try!`
+        }
+        return messages
+    }
 
     const getSpotToGuess = (spotId) => {
         if (preferences.level === 'easy') {
             setSpotToGuess(places.filter(place => !notEasyPlacesTypes.includes(place.type))[spotId]);
-            console.log('easy:',places.filter(place => { return !notEasyPlacesTypes.includes(place['type'])}).length)
             setSpotGuessed(null);
         } else if (preferences.level === 'med') {
             setSpotToGuess(places.filter(place => !notMediumPlacesTypes.includes(place.type))[spotId]);           
-            console.log('medium:',places.filter(place => { return !notMediumPlacesTypes.includes(place.type)}).length)
             setSpotGuessed(null);
         } else if (preferences.level === 'hard') {
             setSpotToGuess(places[spotId]);
@@ -36,14 +47,14 @@ function Game({ started }) {
             if(!spotGuessed) {
                 const spot = {lat, lng};
                 setSpotGuessed(spot);
-                const distance = getAbsoluteDistance(spot['lat'], spot['lng'], spotToGuess['lat'], spotToGuess['lng'])
+                const distance = getAbsoluteDistance(spot['lat'], spot['lng'], spotToGuess['lat'], spotToGuess['lng'], preferences.units)
                 setGuessDistance(distance)
                 if (distance < 10) {
-                    console.log(distance)
                     setWinner(true)
+                    setMessage(createMessage(distance).winner)
                 } else {
                     setWinner(false)
-                    console.log(distance)
+                    setMessage(createMessage(distance).loser)
                 }
             }
         }
@@ -63,7 +74,8 @@ function Game({ started }) {
                     setSpotGuessed={setSpotGuessed}
                     started={started}
                     setPrefernces={setPrefernces}
-                    preferences={preferences}>
+                    preferences={preferences}
+                    message={message}>
                     </Controllers>
             </div>
         </Draggable>

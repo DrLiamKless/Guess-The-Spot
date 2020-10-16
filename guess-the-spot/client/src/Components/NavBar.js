@@ -58,8 +58,8 @@ function NavBar({ setPrefernces }) {
                                 as='select'
                                 size='sm'
                             >
-                                <option value='Absolute'>Absolute</option>
-                                <option value='Walking'>Walking</option>
+                                <option value='absolute'>absolute</option>
+                                <option value='walking'>walking</option>
                             </FormControl>
                         </div>
                         <div className='selector'>
@@ -71,7 +71,7 @@ function NavBar({ setPrefernces }) {
                                 size='sm'
                             >
                                 <option value='km'>km</option>
-                                <option value='ft'>ft</option>
+                                <option value='miles'>miles</option>
                             </FormControl>
                         </div>
             </Navbar>
