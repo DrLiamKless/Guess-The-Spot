@@ -34,7 +34,7 @@ function StartingModal({ player ,setPlayer ,setStarted, showStartModal, setShowS
             <Modal.Body>
             In those difficult times, we don't get to travel often.<br/>
             This game gives you the opportunity to keep your navigation skills fresh,
-            and maybe a good place to visit after this wild times will be over will pop-up to.<br/><br/>
+            and maybe a good place to visit after this wild times is over will pop-up to.<br/><br/>
             <strong>Rules:</strong><br/>
             Very simple - score at least 10 Km/Miles close to the spot<br/><br/>
             <strong>levels:</strong><br/>
