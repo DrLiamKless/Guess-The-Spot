@@ -14,7 +14,6 @@ const circleOptions = {
     strokeColor: "green",
     strokeWeight: 1,
     strokeOpacity: 0.4,
-
 } 
 
 const polylineOptions = {
@@ -24,7 +23,7 @@ const polylineOptions = {
 
 
 
-function Map({ guessDistance, spotToGuess, spotGuessed, HandleGuess }) {
+function Map({ preferences ,guessDistance, spotToGuess, spotGuessed, HandleGuess }) {
 
 
   const [spotToGuessPlace, setSpotToGuessPlace] = useState()
@@ -52,7 +51,7 @@ function Map({ guessDistance, spotToGuess, spotGuessed, HandleGuess }) {
             {spotGuessed &&
             <div>
               <Marker position={spotGuessedPlace}></Marker>
-              <Circle options={circleOptions} center={spotGuessedPlace} radius={guessDistance * 1000}></Circle>
+              <Circle options={circleOptions} center={spotGuessedPlace} radius={guessDistance}></Circle>
               <Polyline options={polylineOptions} path={[spotGuessedPlace, spotToGuessPlace]}></Polyline>
             </div>
             }

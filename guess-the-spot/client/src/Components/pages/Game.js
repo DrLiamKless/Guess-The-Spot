@@ -20,11 +20,11 @@ function Game({ started }) {
     const createMessage = (distance) => {
         const messages = preferences && {
             winner:
-            preferences.units === 'km' ? `Great! only ${distance} KM far!!` : 
-            `Great! only ${distance} miles far!!`,
+            preferences.units === 'km' ? `Great! only ${(distance/1000).toFixed(2)} KM far!!` : 
+            `Great! only ${(distance/1609.344).toFixed(2)} miles far!!`,
             loser:
-            preferences.units === 'km' ? `${distance} KM far... <br/>give it another try!` :
-            `${distance} Miles far... <br/>give it another try!`
+            preferences.units === 'km' ? `${(distance/1000).toFixed(2)} KM far... <br/>give it another try!` :
+            `${(distance/1609.344).toFixed(2)} Miles far... <br/>give it another try!`
         }
         return messages
     }
@@ -85,7 +85,8 @@ function Game({ started }) {
         places={places}
         spotToGuess={spotToGuess}
         spotGuessed={spotGuessed}
-        guessDistance={guessDistance}>
+        guessDistance={guessDistance}
+        preferences={preferences}>
         </Map>
 
     </div>
