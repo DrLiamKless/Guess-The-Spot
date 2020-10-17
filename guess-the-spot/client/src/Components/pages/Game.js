@@ -52,12 +52,22 @@ function Game() {
                 setSpotGuessed(spot);
                 const distance = getAbsoluteDistance(spot['lat'], spot['lng'], spotToGuess['lat'], spotToGuess['lng'], preferences.units)
                 setGuessDistance(distance)
-                if (distance < 10000) {
-                    setWinner(true)
-                    setMessage(createMessage(distance).winner)
-                } else {
-                    setWinner(false)
-                    setMessage(createMessage(distance).loser)
+                if(preferences.units ==='km') {
+                    if (distance < 10000) { // 10 km
+                        setWinner(true)
+                        setMessage(createMessage(distance).winner)
+                    } else {
+                        setWinner(false)
+                        setMessage(createMessage(distance).loser)
+                    }
+                } else if (preferences.units ==='miles') {
+                    if (distance < 1609.344*6) { // 6 miles 
+                        setWinner(true)
+                        setMessage(createMessage(distance).winner)
+                    } else {
+                        setWinner(false)
+                        setMessage(createMessage(distance).loser)
+                    }
                 }
             }
         }
