@@ -18,10 +18,10 @@ const cardStyle = {
   }
 
 
-function Controllers({ message ,started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance, setPrefernces, preferences }) {
+function Controllers({ setShowModal ,message ,started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance, setPrefernces, preferences }) {
 
     useEffect(() => {
-        if(started) {
+        if(started && !spotToGuess) {
             getSpotToGuess(randomSpotId())
         }
     },[started])
@@ -43,7 +43,7 @@ function Controllers({ message ,started, getSpotToGuess, spotToGuess, spotGuesse
 
   return (
         <Card style={cardStyle} text="light" bg="dark">
-            <NavBar setPrefernces={setPrefernces}></NavBar>
+            <NavBar setPrefernces={setPrefernces} setShowModal={setShowModal}></NavBar>
             <Card.Body>
 
                 <Card.Title>Guess The Spot</Card.Title>

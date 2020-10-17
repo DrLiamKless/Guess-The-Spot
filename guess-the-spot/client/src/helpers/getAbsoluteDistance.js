@@ -8,7 +8,6 @@ function getAbsoluteDistance(lat1, lon1, lat2, lon2, units) {
   const kmAnswer = (12742 * Math.asin(Math.sqrt(a)));
   const mileAnswer = (kmAnswer * 0.621371192);
 
-  console.log(units);
   if (units === 'km') { return kmAnswer*1000}; //answer in meters for circle radius
   if (units === 'miles') { return mileAnswer*1609.344}; // answer in meters for circle radius
 

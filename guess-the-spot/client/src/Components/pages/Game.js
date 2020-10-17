@@ -3,18 +3,21 @@ import Map from '../Map';
 import Controllers from '../Controllers';
 import places from '../../data/places.json';
 import Draggable from 'react-draggable';
+import StartingModal from '../StartingModal';
 const getAbsoluteDistance = require('../../helpers/getAbsoluteDistance')
 
 const notEasyPlacesTypes = ["2000-9999 תושבים,ישובים יהודים","ישובים כפריים אחרים לא יהודים" ,"ישובים קהילתיים", "ללא סוג", "מושבים (כפרים שיתופיים) (ב)", "2000-9999 תושבים,ישובים לא יהודים", "10000-19999 תושבים,ישובים לא יהודים", "2000-9999 תושבים,ישובים לא יהודים", "מושבים שיתופיים", "ישובים כפריים יהודים אחרים"]
 const notMediumPlacesTypes = ["2000-9999 תושבים,ישובים לא יהודים", "ללא סוג", "מושבים (כפרים שיתופיים) (ב)", "2000-9999 תושבים,ישובים לא יהודים"]
 
-function Game({ started }) {
+function Game() {
 
     const [spotToGuess, setSpotToGuess] = useState();
     const [spotGuessed, setSpotGuessed] = useState();
     const [guessDistance, setGuessDistance] = useState();
     const [preferences, setPrefernces] = useState({level: 'easy', distance:'absolute', units: 'km'});
     const [message, setMessage] = useState();
+    const [showModal, setShowModal] = useState(false);
+    const [started, setStarted] = useState();
     const [winner, setWinner] = useState(null);
 
     const createMessage = (distance) => {
@@ -62,21 +65,27 @@ function Game({ started }) {
 
   return (
     <div className="game">
-        
+        <StartingModal 
+        setStarted={setStarted}
+        setShowModal={setShowModal}
+        showModal={showModal}>
+        </StartingModal>
+
         <Draggable>
             <div className="game-controllers">
-                    <Controllers
-                    getSpotToGuess={getSpotToGuess}
-                    spotToGuess={spotToGuess}
-                    spotGuessed={spotGuessed}
-                    winner={winner}
-                    guessDistance={guessDistance}
-                    setSpotGuessed={setSpotGuessed}
-                    started={started}
-                    setPrefernces={setPrefernces}
-                    preferences={preferences}
-                    message={message}>
-                    </Controllers>
+                <Controllers
+                getSpotToGuess={getSpotToGuess}
+                spotToGuess={spotToGuess}
+                spotGuessed={spotGuessed}
+                winner={winner}
+                guessDistance={guessDistance}
+                setSpotGuessed={setSpotGuessed}
+                started={started}
+                setPrefernces={setPrefernces}
+                preferences={preferences}
+                message={message}
+                setShowModal={setShowModal}>
+                </Controllers>
             </div>
         </Draggable>
 
