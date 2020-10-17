@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import '../App.css';
-import { GoogleMap, LoadScript, Marker, Circle, Polyline, DirectionsService } from '@react-google-maps/api';
+import { GoogleMap, LoadScript, Marker, Circle, Polyline, DirectionsRenderer, DirectionsService } from '@react-google-maps/api';
 require('dotenv').config()
 
 const mapContainerStyle = {
@@ -25,6 +25,8 @@ function Map({ preferences ,guessDistance, spotToGuess, spotGuessed, HandleGuess
 
   const [spotToGuessPlace, setSpotToGuessPlace] = useState();
   const [spotGuessedPlace, setSpotGuessedPlace] = useState();
+  const [directions, setDirections] = useState();
+
 
   useEffect(() => {
     if (spotToGuess && spotGuessed)  {
@@ -36,11 +38,7 @@ function Map({ preferences ,guessDistance, spotToGuess, spotGuessed, HandleGuess
   const directionsCallback = (response) => {    
     if (response !== null) {
       if (response.status === 'OK') {
-        this.setState(
-          () => ({
-            response
-          })
-        )
+        return
       } else {
         console.log('response: ', response)
       }
@@ -49,7 +47,7 @@ function Map({ preferences ,guessDistance, spotToGuess, spotGuessed, HandleGuess
 
   return (
     <div className="map-container">
-        <LoadScript googleMapsApiKey={process.env.KEY}>
+        <LoadScript googleMapsApiKey={'AIzaSyD4jwMMAN975IMcUih-Avt68C4CYvYNlGE'}>
             <GoogleMap
               mapContainerStyle={mapContainerStyle}
               center={defaultCenter}
@@ -64,7 +62,6 @@ function Map({ preferences ,guessDistance, spotToGuess, spotGuessed, HandleGuess
               <Marker position={spotGuessedPlace}></Marker>
               <Circle options={circleOptions} center={spotGuessedPlace} radius={guessDistance}></Circle>
               <Polyline options={polylineOptions} path={[spotGuessedPlace, spotToGuessPlace]}></Polyline>
-              {/* <DirectionsService options={{origin: spotGuessedPlace, destination: spotToGuess, travelMode:"WALKING"}} callback={(response)=>{directionsCallback(response)}}></DirectionsService> */}
             </div>
             }
             </GoogleMap>

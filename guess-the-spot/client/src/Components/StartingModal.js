@@ -1,16 +1,29 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Modal, Button } from 'react-bootstrap'
+import React, { useState, useEffect, useRef } from 'react';
+import { Modal, Button, FormControl } from 'react-bootstrap'
 require('dotenv').config()
 
+const footerStyle = {
+  color: 'red',
+}
 
-function StartingModal({ setStarted, showModal, setShowModal }) {
+function StartingModal({ player ,setPlayer ,setStarted, showModal, setShowModal }) {
+  const [noUserName, setNoUserName] = useState(false);
 
     const handleClose = () => setShowModal(false);
     const handleShowModal = () => setShowModal(true);
+    const userNameInput = useRef();
 
     useEffect(() => {
         handleShowModal(true)
     },[])
+
+    const startGame = (name) => { 
+      if (name) {
+        setStarted(true); handleClose(); setPlayer(name); setNoUserName(false);
+      } else {
+        setNoUserName(true)
+      }
+    }
 
   return (
     <div className="starting-modal">
@@ -30,8 +43,19 @@ function StartingModal({ setStarted, showModal, setShowModal }) {
             hard - Just as it sounds. All the spots are in!<br/><br/>
             <strong>So let's see - Who Is The Best Guesser!?</strong>
             </Modal.Body>
-            <Modal.Footer>
-            <Button variant="success" onClick={() => {setStarted(true); handleClose();}}>
+            <Modal.Footer style={footerStyle}>
+            <FormControl 
+              ref={userNameInput}
+              as='input'
+              placeholder='userName'
+              size='sm'
+              defaultValue={player ? player : ''}
+              >
+            </FormControl>
+              {noUserName &&
+            'Please enter name'
+              }
+            <Button variant="success" onClick={()=>{startGame(userNameInput.current.value)}}>
                 Start!
             </Button>
             </Modal.Footer>

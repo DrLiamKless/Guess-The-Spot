@@ -11,14 +11,15 @@ const notMediumPlacesTypes = ["2000-9999 תושבים,ישובים לא יהוד
 
 function Game() {
 
+    const [started, setStarted] = useState();
     const [spotToGuess, setSpotToGuess] = useState();
     const [spotGuessed, setSpotGuessed] = useState();
     const [guessDistance, setGuessDistance] = useState();
     const [preferences, setPrefernces] = useState({level: 'easy', distance:'absolute', units: 'km'});
     const [message, setMessage] = useState();
     const [showModal, setShowModal] = useState(false);
-    const [started, setStarted] = useState();
-    const [winner, setWinner] = useState(null);
+    const [winner, setWinner] = useState();
+    const [player, setPlayer] = useState();
 
     const createMessage = (distance) => {
         const messages = preferences && {
@@ -78,7 +79,9 @@ function Game() {
         <StartingModal 
         setStarted={setStarted}
         setShowModal={setShowModal}
-        showModal={showModal}>
+        showModal={showModal}
+        player={player}
+        setPlayer={setPlayer}    >
         </StartingModal>
 
         <Draggable>
@@ -95,7 +98,8 @@ function Game() {
                 setPrefernces={setPrefernces}
                 preferences={preferences}
                 message={message}
-                setShowModal={setShowModal}>
+                setShowModal={setShowModal}
+                player={player}>
                 </Controllers>
             </div>
         </Draggable>

@@ -18,13 +18,13 @@ const cardStyle = {
   }
 
 
-function Controllers({ setWinner ,setShowModal ,message ,started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance, setPrefernces, preferences }) {
+function Controllers({ player, setWinner ,setShowModal ,message ,started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance, setPrefernces, preferences }) {
 
     useEffect(() => {
-        if(started && !spotToGuess) {
+        if(!spotToGuess) {
             getSpotToGuess(randomSpotId())
         }
-    },[started])
+    },[])
 
     const next = () => {
         getSpotToGuess(randomSpotId())
@@ -45,10 +45,12 @@ function Controllers({ setWinner ,setShowModal ,message ,started, getSpotToGuess
   return (
         <Card style={cardStyle} text="light" bg="dark">
             <NavBar setPrefernces={setPrefernces} setShowModal={setShowModal}></NavBar>
+            {started &&
             <Card.Body>
 
                 <Card.Title>Guess The Spot</Card.Title>
-
+                
+                <Card.Subtitle className="mb-2 text-muted">היי {player}</Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">?הידעת את הארץ</Card.Subtitle>
 
                 <Card.Text className="spot-to-guess">
@@ -58,7 +60,7 @@ function Controllers({ setWinner ,setShowModal ,message ,started, getSpotToGuess
                 <Card.Text className="messages">
                     { !winner &&
                         spotToGuess && !spotGuessed ? 
-                            <div>
+                        <div>
                                 <h4>goodLuck</h4>
                                 <Button size='sm' variant="outline-primary" onClick={()=>{next()}}>Skip</Button>
                             </div> 
@@ -80,12 +82,13 @@ function Controllers({ setWinner ,setShowModal ,message ,started, getSpotToGuess
 
                 </Card.Text>
             </Card.Body>
+    }
         </Card>
-  );
-}
-
-export default Controllers;
-
+        );
+    }
+    
+    export default Controllers;
+    
 {/* <Form>
     <Form.Row>
             <Form.Label>Level</Form.Label>
