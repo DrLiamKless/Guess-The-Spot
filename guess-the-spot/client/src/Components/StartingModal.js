@@ -6,15 +6,15 @@ const footerStyle = {
   color: 'red',
 }
 
-function StartingModal({ player ,setPlayer ,setStarted, showModal, setShowModal }) {
+function StartingModal({ player ,setPlayer ,setStarted, showStartModal, setShowStartModal }) {
   const [noUserName, setNoUserName] = useState(false);
 
-    const handleClose = () => setShowModal(false);
-    const handleShowModal = () => setShowModal(true);
+    const handleClose = () => setShowStartModal(false);
+    const handleShowStartModal = () => setShowStartModal(true);
     const userNameInput = useRef();
 
     useEffect(() => {
-        handleShowModal(true)
+        handleShowStartModal(true)
     },[])
 
     const startGame = (name) => { 
@@ -27,7 +27,7 @@ function StartingModal({ player ,setPlayer ,setStarted, showModal, setShowModal 
 
   return (
     <div className="starting-modal">
-        <Modal className="starting-modal" show={showModal} centered>
+        <Modal className="starting-modal" show={showStartModal} centered>
             <Modal.Header>
             <Modal.Title>Welcome to the Spot Guesser 2020 !</Modal.Title>
             </Modal.Header>

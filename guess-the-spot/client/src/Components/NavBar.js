@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { Button, FormControl, Form, Nav, Navbar, Badge } from 'react-bootstrap'
-import { InfoCircle } from 'react-bootstrap-icons';
+import { InfoCircle, Trophy } from 'react-bootstrap-icons';
 require('dotenv').config()
 
 
@@ -20,7 +20,14 @@ const infoButtonStyle = {
     cursor: 'pointer',
 }
 
-function NavBar({ setPrefernces, setShowModal }) {
+const trophyButtonStyle = {
+    position: 'absolute',
+    top: 5,
+    right: -10,
+    cursor: 'pointer',
+}
+
+function NavBar({ showRecordsModal, setShowRecordsModal ,setPrefernces, setShowStartModal }) {
 
     const [level, setLevel] = useState('easy')
     const [distance, setDistance] = useState('absolute')
@@ -73,7 +80,8 @@ function NavBar({ setPrefernces, setShowModal }) {
                         <option value='km'>km</option>
                         <option value='miles'>miles</option>
                     </FormControl>
-                    <InfoCircle variant="light" onClick={()=>{setShowModal(true)}} style={infoButtonStyle}/>
+                    <InfoCircle variant="light" onClick={()=>{setShowStartModal(true)}} style={infoButtonStyle}/>
+                    <Trophy variant="light" onClick={()=>{setShowRecordsModal(true)}} style={trophyButtonStyle}/>
                     {/* <div className='selector'>
                         <h6>Distance</h6>
                         <FormControl 
