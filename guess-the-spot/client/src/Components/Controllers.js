@@ -1,9 +1,6 @@
 import React, { useEffect } from 'react';
-import '../App.css';
 import { Form, Col, Card, Button } from 'react-bootstrap'
-
-
-const randomSpotId = () => Math.floor(Math.random() * 1240)
+import NavBar from './NavBar'
 
 const cardStyle = {
     position:'fixed',
@@ -11,15 +8,23 @@ const cardStyle = {
     flexDirection: 'column',
     alignItems: 'center',
     fontSize: '15px',
-    height: '50vh',
-    width: '20vw',
-    borderRadius: '10%',
+    minHeight: '340px',
+    maxHeight: '340px',
+    minWidth: '300px',
+    maxWidth: '300px',
+    borderRadius: '15px',
     border: 'solid 1px black',
     boxShadow: '1px 1px 7px 1px rgb(52,58,64)'
   }
 
 
-function Controllers({ started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance }) {
+function Controllers({ setShowModal ,message ,started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance, setPrefernces, preferences }) {
+
+    useEffect(() => {
+        if(started && !spotToGuess) {
+            getSpotToGuess(randomSpotId())
+        }
+    },[started])
 
     const next = () => {
         getSpotToGuess(randomSpotId())
@@ -29,14 +34,16 @@ function Controllers({ started, getSpotToGuess, spotToGuess, spotGuessed, setSpo
         setSpotGuessed(null)
     }
 
-    useEffect(() => {
-        if(started) {
-            getSpotToGuess(randomSpotId())
-        }
-    },[started])
+    const randomSpotId = () => (
+        preferences.level === 'easy' ? Math.floor(Math.random() * 377) 
+        : preferences.level === 'med' ? Math.floor(Math.random() * 708)
+        : preferences.level ==='hard' && Math.floor(Math.random() * 1180)
+    )
+
 
   return (
         <Card style={cardStyle} text="light" bg="dark">
+            <NavBar setPrefernces={setPrefernces} setShowModal={setShowModal}></NavBar>
             <Card.Body>
 
                 <Card.Title>Guess The Spot</Card.Title>
@@ -52,21 +59,21 @@ function Controllers({ started, getSpotToGuess, spotToGuess, spotGuessed, setSpo
                         spotToGuess && !spotGuessed ? 
                             <div>
                                 <h4>goodLuck</h4>
-                                <Button onClick={()=>{next()}}>Next</Button>
+                                <Button size='sm' variant="outline-primary" onClick={()=>{next()}}>Skip</Button>
                             </div> 
                         : winner === false && 
                             <div className="failure-message">
-                                <h6>{guessDistance} KM far... <br/>give it another try!</h6>
+                                {message}
                                 <div className="failure-buttons">
-                                    <Button variant="warning" onClick={()=>{tryAgain()}}>Try Again</Button>
-                                    <Button variant="danger" onClick={()=>{next()}}>Next</Button>
+                                    <Button size='sm' variant="outline-warning" onClick={()=>{tryAgain()}}>Try Again</Button>
+                                    <Button size='sm' variant="outline-danger" onClick={()=>{next()}}>Next</Button>
                                 </div> 
                             </div>
                     }
                     { winner === true &&
                     <div> 
-                        <h6>Great! only {guessDistance} KM</h6>
-                        <Button variant="success" onClick={()=>{next()}}>Another One!</Button> 
+                        {message}
+                        <Button size='sm' variant="success" onClick={()=>{next()}}>Another One!</Button> 
                     </div>
                     }
 
