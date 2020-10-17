@@ -61,15 +61,15 @@ function Game() {
             return
     }
 
-    const getSpotToGuess = (spotId) => {
+    const getSpotToGuess = (spotIndex) => {
         if (preferences.level === 'easy') {
-            setSpotToGuess(places.filter(place => !notEasyPlacesTypes.includes(place.type))[spotId]);
+            setSpotToGuess(places.filter(place => !notEasyPlacesTypes.includes(place.type))[spotIndex]);
             setSpotGuessed(null);
         } else if (preferences.level === 'med') {
-            setSpotToGuess(places.filter(place => !notMediumPlacesTypes.includes(place.type))[spotId]);           
+            setSpotToGuess(places.filter(place => !notMediumPlacesTypes.includes(place.type))[spotIndex]);  
             setSpotGuessed(null);
         } else if (preferences.level === 'hard') {
-            setSpotToGuess(places[spotId]);
+            setSpotToGuess(places[spotIndex]);
             setSpotGuessed(null);
         }
     }
@@ -122,6 +122,7 @@ function Game() {
         showRecordsModal={showRecordsModal}
         setShowRecordsModal={setShowRecordsModal}
         scoreBox={scoreBox}
+        setScoreBox={setScoreBox}
         >
         </RecordsModal>
 

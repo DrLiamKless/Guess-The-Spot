@@ -31,7 +31,6 @@ function Controllers({
      spotGuessed, 
      setSpotGuessed, 
      winner, 
-     guessDistance, 
      setPrefernces, 
      preferences 
     }) {

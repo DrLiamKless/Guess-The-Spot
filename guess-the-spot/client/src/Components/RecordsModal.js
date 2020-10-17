@@ -10,13 +10,18 @@ const sortScoreBox = (scoreBox) => {
     }
 }
 
-function RecordsModal({ scoreBox ,showRecordsModal, setShowRecordsModal }) {
+function RecordsModal({ setScoreBox ,scoreBox ,showRecordsModal, setShowRecordsModal }) {
 
     const [sortedScoreBox, setSortedScoreBox] = useState();
 
     useEffect(()=> {
         setSortedScoreBox(sortScoreBox(scoreBox))
     },[scoreBox])
+
+    const clearRocords = () => {
+        localStorage.removeItem('scoreBox');
+        setScoreBox(null)
+    }
 
 
   return (
@@ -50,6 +55,7 @@ function RecordsModal({ scoreBox ,showRecordsModal, setShowRecordsModal }) {
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="outline-success" onClick={()=>{setShowRecordsModal(false)}}>close</Button>
+                <Button variant="outline-warning" onClick={clearRocords}>Clear Records</Button>
             </Modal.Footer>
       </Modal>
     </div>
