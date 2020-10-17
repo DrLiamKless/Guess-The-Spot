@@ -18,7 +18,7 @@ const cardStyle = {
   }
 
 
-function Controllers({ setShowModal ,message ,started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance, setPrefernces, preferences }) {
+function Controllers({ setWinner ,setShowModal ,message ,started, getSpotToGuess, spotToGuess, spotGuessed, setSpotGuessed, winner, guessDistance, setPrefernces, preferences }) {
 
     useEffect(() => {
         if(started && !spotToGuess) {
@@ -28,6 +28,7 @@ function Controllers({ setShowModal ,message ,started, getSpotToGuess, spotToGue
 
     const next = () => {
         getSpotToGuess(randomSpotId())
+        setWinner(false)
     }
 
     const tryAgain = () => {

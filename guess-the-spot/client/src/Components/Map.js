@@ -3,7 +3,7 @@ import '../App.css';
 import { GoogleMap, LoadScript, Marker, Circle, Polyline, DirectionsService } from '@react-google-maps/api';
 require('dotenv').config()
 
-const mapStyle = {
+const mapContainerStyle = {
     width: '100vw',
     height: '100vh'
     };
@@ -51,11 +51,14 @@ function Map({ preferences ,guessDistance, spotToGuess, spotGuessed, HandleGuess
     <div className="map-container">
         <LoadScript googleMapsApiKey={process.env.KEY}>
             <GoogleMap
-              mapContainerStyle={mapStyle}
+              mapContainerStyle={mapContainerStyle}
               center={defaultCenter}
               zoom={7.3}
               onClick={(e)=> {HandleGuess(e.latLng.lat(), e.latLng.lng());}}
             >
+            {/* {spotToGuess &&
+            <Marker position={{lat: spotToGuess["lat"], lng: spotToGuess["lng"]}}></Marker>
+            } */}
             {spotGuessed &&
             <div>
               <Marker position={spotGuessedPlace}></Marker>

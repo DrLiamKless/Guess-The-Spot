@@ -52,7 +52,7 @@ function Game() {
                 setSpotGuessed(spot);
                 const distance = getAbsoluteDistance(spot['lat'], spot['lng'], spotToGuess['lat'], spotToGuess['lng'], preferences.units)
                 setGuessDistance(distance)
-                if (distance < 10) {
+                if (distance < 10000) {
                     setWinner(true)
                     setMessage(createMessage(distance).winner)
                 } else {
@@ -78,6 +78,7 @@ function Game() {
                 spotToGuess={spotToGuess}
                 spotGuessed={spotGuessed}
                 winner={winner}
+                setWinner={setWinner}
                 guessDistance={guessDistance}
                 setSpotGuessed={setSpotGuessed}
                 started={started}
