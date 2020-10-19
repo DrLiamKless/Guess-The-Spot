@@ -43,12 +43,12 @@ function RecordsModal({ setScoreBox ,scoreBox ,showRecordsModal, setShowRecordsM
                     </thead>
                     <tbody>
                         {sortedScoreBox && sortedScoreBox.map((record, i) => (
-                        <tr>
+                        <tr key={i}>
                         <td>{i+1}</td>
                         <td>{record.name}</td>
                         <td>{record.successes}</td>
                         <td>{record.failures}</td>
-                        <td>{record.averageSuccessTime} sec</td>
+                        <td>{record.averageSuccessTime.toFixed(2)} sec</td>
                         </tr>
                         ))}
                     </tbody>

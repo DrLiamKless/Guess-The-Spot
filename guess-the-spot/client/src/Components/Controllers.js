@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Card, Button } from 'react-bootstrap'
 import NavBar from './NavBar'
 
@@ -16,7 +16,6 @@ const cardStyle = {
     border: 'solid 1px black',
     boxShadow: '1px 1px 7px 1px rgb(52,58,64)'
   }
-
 
 function Controllers({ 
     setShowRecordsModal, 
@@ -55,7 +54,6 @@ function Controllers({
             <NavBar 
                 setPrefernces={setPrefernces} 
                 setShowStartModal={setShowStartModal}
-                timer={timer}
                 timeStopped={timeStopped}
                 setShowRecordsModal={setShowRecordsModal}
                 timer={timer}>
@@ -67,7 +65,7 @@ function Controllers({
                 <Card.Subtitle className="mb-2 text-muted">היי {player}</Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">?הידעת את הארץ</Card.Subtitle>
 
-                <Card.Text className="spot-to-guess">
+                <Card.Text as="div" className="spot-to-guess">
             
                 {started ? 
                 spotToGuess && <h4>{spotToGuess.name}</h4> : 
@@ -75,7 +73,7 @@ function Controllers({
                 
                 </Card.Text>
 
-                <Card.Text className="messages">
+                <Card.Text as="div" className="messages">
                     { !winner &&
                             spotGuessed === null ? 
                             <div>

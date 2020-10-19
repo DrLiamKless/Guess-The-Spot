@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { select, Navbar } from 'react-bootstrap'
+import { Navbar } from 'react-bootstrap'
 import { InfoCircle, Trophy, Alarm } from 'react-bootstrap-icons';
 require('dotenv').config()
 
@@ -23,13 +23,6 @@ const trophyButtonStyle = {
     position: 'absolute',
     top: 5,
     right: -10,
-    cursor: 'pointer',
-}
-
-const alarmStyle = {
-    position: 'absolute',
-    top: 15,
-    right: 103,
     cursor: 'pointer',
 }
 
@@ -67,7 +60,7 @@ function NavBar({setShowRecordsModal ,setPrefernces, setShowStartModal, timer, t
                 <div className='selector'>
                     <h6>Level</h6>
                     <select
-                        class="form-control form-control-sm" 
+                        className="form-control form-control-sm" 
                         onChange={(e) => {handleChange(e, 'level')}}
                         style={selectorStyle}
                         as='select'
@@ -82,7 +75,7 @@ function NavBar({setShowRecordsModal ,setPrefernces, setShowStartModal, timer, t
 
                     <h6>Units</h6>
                     <select
-                        class="form-control form-control-sm"
+                        className="form-control form-control-sm"
                         onChange={(e) => {handleChange(e, 'units')}} 
                         style={selectorStyle} 
                         as='select' 
