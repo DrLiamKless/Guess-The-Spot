@@ -6,24 +6,24 @@ const footerStyle = {
   color: 'red',
 }
 
-function StartingModal({ player ,setPlayer ,setStarted, showStartModal, setShowStartModal }) {
+function StartingModal({ player ,setPlayer ,handleStart, showStartModal, setShowStartModal }) {
   const [noUserName, setNoUserName] = useState(false);
+  const userNameInput = useRef();
 
-    const handleClose = () => setShowStartModal(false);
+    const handleClose = (name) => {
+      if (name) {
+        setPlayer(name);
+        setShowStartModal(false);
+      } else {
+        setNoUserName(true)
+      }
+    };
+
     const handleShowStartModal = () => setShowStartModal(true);
-    const userNameInput = useRef();
 
     useEffect(() => {
         handleShowStartModal(true)
     },[])
-
-    const startGame = (name) => { 
-      if (name) {
-        setStarted(true); handleClose(); setPlayer(name); setNoUserName(false);
-      } else {
-        setNoUserName(true)
-      }
-    }
 
   return (
     <div className="starting-modal">
@@ -55,8 +55,8 @@ function StartingModal({ player ,setPlayer ,setStarted, showStartModal, setShowS
               {noUserName &&
             'Please enter name'
               }
-            <Button variant="success" onClick={()=>{startGame(userNameInput.current.value)}}>
-                Start!
+            <Button variant="success" onClick={()=>{handleClose(userNameInput.current.value);}}>
+                Start Playin'!
             </Button>
             </Modal.Footer>
       </Modal>

@@ -1,11 +1,10 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Button, FormControl, Form, Nav, Navbar, Badge } from 'react-bootstrap'
-import { InfoCircle, Trophy } from 'react-bootstrap-icons';
+import React, { useEffect, useState } from 'react';
+import { select, Navbar } from 'react-bootstrap'
+import { InfoCircle, Trophy, Alarm } from 'react-bootstrap-icons';
 require('dotenv').config()
 
 
 const selectorStyle = {
-    width: '70px',
     backgroundColor: '#282c34',
     color: 'white',
     marginTop: '-8px',
@@ -27,11 +26,24 @@ const trophyButtonStyle = {
     cursor: 'pointer',
 }
 
-function NavBar({ showRecordsModal, setShowRecordsModal ,setPrefernces, setShowStartModal }) {
+const alarmStyle = {
+    position: 'absolute',
+    top: 15,
+    right: 103,
+    cursor: 'pointer',
+}
+
+function NavBar({setShowRecordsModal ,setPrefernces, setShowStartModal, timer, timeStopped }) {
 
     const [level, setLevel] = useState('easy')
     const [distance, setDistance] = useState('absolute')
     const [units, setUnits] = useState('km')
+    
+    useEffect(() => {
+
+        const prefernces = {level, distance, units};
+        setPrefernces(prefernces);
+    },[level, distance, units])
 
     const handleChange = (e, prefernce) => {
         switch(prefernce){
@@ -44,56 +56,53 @@ function NavBar({ showRecordsModal, setShowRecordsModal ,setPrefernces, setShowS
             case 'units':
                 setUnits(e.target.value)
                 break;
+            default :
+            console.log('something went wrong');
         }
     }
 
     useEffect(() => {
-
-        const prefernces = {level, distance, units};
-        setPrefernces(prefernces);
-    },[level, distance, units])
-
+        console.log(timer)
+    }, [timer])
+    
     return (
         <div className="nav-bar">
             <Navbar variant="dark">
                 <div className='selector'>
                     <h6>Level</h6>
-                    <FormControl 
+                    <select
+                        class="form-control form-control-sm" 
                         onChange={(e) => {handleChange(e, 'level')}}
                         style={selectorStyle}
                         as='select'
                         size='sm'
-                    >
+                        disabled={ timer ? true : false}>
                         <option value='easy'>easy</option>
                         <option value='med'>med</option>
                         <option value='hard'>hard</option>
-                    </FormControl>
+                    </select>
                 </div>
                 <div className='selector'>
+
                     <h6>Units</h6>
-                    <FormControl
+                    <select
+                        class="form-control form-control-sm"
                         onChange={(e) => {handleChange(e, 'units')}} 
                         style={selectorStyle} 
                         as='select' 
                         size='sm'
-                        >
+                        disabled={ timer ? true : false}>
                         <option value='km'>km</option>
                         <option value='miles'>miles</option>
-                    </FormControl>
+                    </select>
                     <InfoCircle variant="light" onClick={()=>{setShowStartModal(true)}} style={infoButtonStyle}/>
                     <Trophy variant="light" onClick={()=>{setShowRecordsModal(true)}} style={trophyButtonStyle}/>
-                    {/* <div className='selector'>
-                        <h6>Distance</h6>
-                        <FormControl 
-                            onChange={(e) => {handleChange(e, 'distance')}}
-                            style={selectorStyle}
-                            as='select'
-                            size='sm'
-                        >
-                            <option value='absolute'>absolute</option>
-                            <option value='walking'>walking</option>
-                        </FormControl>
-                    </div> */}
+                    <div>
+                        <Alarm className={'alarm'}></Alarm>
+                    <div className={'timer'}>
+                        <h5>{!timer ? 0 : !timeStopped ? timer : timeStopped}</h5>
+                    </div>
+                    </div>
                 </div>
             </Navbar>
         </div>

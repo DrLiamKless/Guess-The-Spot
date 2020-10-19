@@ -23,11 +23,23 @@ function Game() {
     const [winner, setWinner] = useState();
     const [player, setPlayer] = useState();
     const [scoreBox, setScoreBox] = useState(JSON.parse(localStorage.getItem('scoreBox')));
+    const [timer, setTimer] = useState();
+    const [timeStopped, setTimeStopped] = useState();
 
-
-    // useEffect(() => {
-    //     console.log(scoreBox)
-    // },[])
+    useEffect(() => {
+        if (timer && timer !== 0 && !timeStopped) {
+            const num = timer - 1
+            setTimeout(()=>{
+                setTimer(num)
+            },1000)
+        } else if (timer === 0) {
+            HandleGuess(0);
+        } else if (timeStopped) {
+            setTimer(false);
+        } else {
+            return
+        }
+    } ,[timer])
 
     const createMessage = (distance) => {
         const messages = preferences && {
@@ -36,24 +48,52 @@ function Game() {
             `Great! only ${(distance/1609.344).toFixed(2)} miles far!!`,
             loser:
             preferences.units === 'km' ? `${(distance/1000).toFixed(2)} KM far... <br/>give it another try!` :
-            `${(distance/1609.344).toFixed(2)} Miles far... <br/>give it another try!`
+            `${(distance/1609.344).toFixed(2)} Miles far... <br/>give it another try!`,
+            outOfTime: 'To slow...'
         }
         return messages
     }
 
-    const handleScoreBox = (player, isSucceed) => { // todo: add time to scoreBox
+    const handleStartGuessing = (randomIndex) => {
+        if(!spotToGuess) { // if its the first guess 
+            setStarted(true);
+            getSpotToGuess(randomIndex);
+            setTimer(10);
+        } else { //in the next guesses
+            setStarted(true);
+            setTimeStopped(false);
+            getSpotToGuess(randomIndex);
+            setTimer(10);
+            setWinner(false);
+            setSpotGuessed(null)
+        }
+    }
+
+    const handleTryAgain = () => {
+        setStarted(true);
+        setTimeStopped(false);
+        setTimer(10);
+        setWinner(false);
+        setSpotGuessed(null)
+    }
+
+    const handleScoreBox = (name, isSucceed, timeToGuess) => { // todo: add time to scoreBox
         const records = scoreBox ? scoreBox.slice() : [];
         for (let i = 0; i <= records.length; i++) {
-            if (records[i] && records[i].player === player) {
-                console.log('1')
-                records[i][isSucceed] = records[i][isSucceed]+=1
+            if (records[i] && records[i].name === name) {
+                const player = records[i]
+                if(timeToGuess) {
+                    player.averageSuccessTime = player.averageSuccessTime ? 
+                    ((player.averageSuccessTime*player.successes) + timeToGuess / (timeToGuess + 1).toFixed(2)) :
+                    timeToGuess
+                }
+                player[isSucceed] = player[isSucceed]+=1
                 setScoreBox(records)
                 localStorage.setItem('scoreBox', JSON.stringify(records))
                 return
             }
         }
-            console.log('2')
-            const newRecord = {player, successes: 0, failures: 0}
+            const newRecord = {name, successes: 0, failures: 0, averageSuccessTime: timeToGuess}
             newRecord[isSucceed] = newRecord[isSucceed]+=1
             records.push(newRecord);
             setScoreBox(records)
@@ -75,8 +115,22 @@ function Game() {
     }
 
     const HandleGuess = (lat, lng) => {
-        if(spotToGuess){
-            if(!spotGuessed) {
+        if(lat === 0 ) { // when time runs out
+            setTimeStopped(0);
+            setTimer(false);
+            setSpotGuessed(false);
+            setWinner(false);
+            setMessage(createMessage(0).outOfTime);
+            handleScoreBox(player, 'failures');
+            return
+        };
+
+        if(spotToGuess && spotGuessed === null){ // when guessed, can press only when place is given
+            const currentTime = timer;
+            setTimer(false);
+            setTimeStopped(currentTime);
+            
+            if(!spotGuessed) { // only if got a spot..
                 const spot = {lat, lng};
                 setSpotGuessed(spot);
                 const distance = getAbsoluteDistance(spot['lat'], spot['lng'], spotToGuess['lat'], spotToGuess['lng'], preferences.units)
@@ -85,19 +139,17 @@ function Game() {
                     if (distance < 10000) { // 10 km
                         setWinner(true)
                         setMessage(createMessage(distance).winner)
-                        handleScoreBox(player, 'successes')
-                        console.log(scoreBox);
+                        handleScoreBox(player, 'successes', 10-currentTime)
                     } else {
                         setWinner(false)
                         setMessage(createMessage(distance).loser)
                         handleScoreBox(player, 'failures')
-                        console.log(scoreBox);
                     }
-                } else if (preferences.units ==='miles') {
+                } else if (preferences.units === 'miles') {
                     if (distance < 1609.344*6) { // 6 miles 
                         setWinner(true)
                         setMessage(createMessage(distance).winner)
-                        handleScoreBox(player, 'successes')
+                        handleScoreBox(player, 'successes', 10-currentTime)
                     } else {
                         setWinner(false)
                         setMessage(createMessage(distance).loser)
@@ -111,19 +163,17 @@ function Game() {
   return (
     <div className="game">
         <StartingModal 
-        setStarted={setStarted}
         setShowStartModal={setShowStartModal}
         showStartModal={showStartModal}
         player={player}
-        setPlayer={setPlayer}    >
+        setPlayer={setPlayer}>
         </StartingModal>
 
         <RecordsModal 
         showRecordsModal={showRecordsModal}
         setShowRecordsModal={setShowRecordsModal}
         scoreBox={scoreBox}
-        setScoreBox={setScoreBox}
-        >
+        setScoreBox={setScoreBox}>
         </RecordsModal>
 
         <Draggable>
@@ -144,7 +194,11 @@ function Game() {
                 player={player}
                 showRecordsModal={showRecordsModal}
                 setShowRecordsModal={setShowRecordsModal}
-                >
+                handleStartGuessing={handleStartGuessing}
+                handleTryAgain={handleTryAgain}
+                timer={timer}
+                setTimer={setTimer}
+                timeStopped={timeStopped}>
                 </Controllers>
             </div>
         </Draggable>

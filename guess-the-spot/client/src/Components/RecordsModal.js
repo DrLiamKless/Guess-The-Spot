@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Button, Table } from 'react-bootstrap'
 require('dotenv').config()
 
@@ -38,15 +38,17 @@ function RecordsModal({ setScoreBox ,scoreBox ,showRecordsModal, setShowRecordsM
                         <th>Name</th>
                         <th>Number Of Successes</th>
                         <th>Number Of Failures</th>
+                        <th>Success Average Time</th>
                         </tr>
                     </thead>
                     <tbody>
                         {sortedScoreBox && sortedScoreBox.map((record, i) => (
                         <tr>
                         <td>{i+1}</td>
-                        <td>{record.player}</td>
+                        <td>{record.name}</td>
                         <td>{record.successes}</td>
                         <td>{record.failures}</td>
+                        <td>{record.averageSuccessTime} sec</td>
                         </tr>
                         ))}
                     </tbody>
