@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Modal, Button, FormControl } from 'react-bootstrap'
-require('dotenv').config()
 
 const footerStyle = {
   color: 'red',

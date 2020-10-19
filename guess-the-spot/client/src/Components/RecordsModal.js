@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { Modal, Button, Table } from 'react-bootstrap'
-require('dotenv').config()
 
 const sortScoreBox = (scoreBox) => {
     if(scoreBox) {

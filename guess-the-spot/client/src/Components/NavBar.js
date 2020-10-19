@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navbar } from 'react-bootstrap'
 import { InfoCircle, Trophy, Alarm } from 'react-bootstrap-icons';
-require('dotenv').config()
 
 
 const selectorStyle = {

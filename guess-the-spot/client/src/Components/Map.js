@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../App.css';
 import { GoogleMap, LoadScript, Marker, Circle, Polyline } from '@react-google-maps/api';
-require('dotenv').config()
 
 const mapContainerStyle = {
     width: '100vw',
