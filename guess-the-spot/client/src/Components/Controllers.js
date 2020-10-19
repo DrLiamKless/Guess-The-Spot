@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Form, Col, Card, Button } from 'react-bootstrap'
+import React from 'react';
+import { Card, Button } from 'react-bootstrap'
 import NavBar from './NavBar'
 
 const cardStyle = {
@@ -17,55 +17,47 @@ const cardStyle = {
     boxShadow: '1px 1px 7px 1px rgb(52,58,64)'
   }
 
-
-function Controllers({
-    showRecordsModal, 
-    setShowRecordsModal 
-    ,player, 
-    setWinner 
-    ,setShowStartModal 
-    ,message 
-    ,started, 
+function Controllers({ 
+    setShowRecordsModal, 
+    player, 
+    setWinner, 
+    setShowStartModal, 
+    message, 
+    started, 
     getSpotToGuess,
-     spotToGuess, 
-     spotGuessed, 
-     setSpotGuessed, 
-     winner, 
-     setPrefernces, 
-     preferences 
-    }) {
-
-    useEffect(() => {
-        if(!spotToGuess) {
-            getSpotToGuess(randomSpotId())
-        }
-    },[])
-
-    const next = () => {
-        getSpotToGuess(randomSpotId())
-        setWinner(false)
-    }
-
-    const tryAgain = () => {
-        setSpotGuessed(null)
-    }
-
+    spotToGuess, 
+    spotGuessed, 
+    setSpotGuessed,
+    winner, 
+    setPrefernces, 
+    preferences,
+    handleStartGuessing,
+    handleTryAgain,
+    timer,
+    timeStopped
+}) {
+    
     const randomSpotId = () => (
         preferences.level === 'easy' ? Math.floor(Math.random() * 377) 
         : preferences.level === 'med' ? Math.floor(Math.random() * 708)
         : preferences.level ==='hard' && Math.floor(Math.random() * 1180)
     )
-
+    
+    const next = () => {
+        getSpotToGuess(randomSpotId());
+        setWinner(false);
+        setSpotGuessed(null);
+    }
 
   return (
         <Card style={cardStyle} text="light" bg="dark">
             <NavBar 
                 setPrefernces={setPrefernces} 
                 setShowStartModal={setShowStartModal}
-                showRecordsModal={showRecordsModal}
-                setShowRecordsModal={setShowRecordsModal}>
+                timeStopped={timeStopped}
+                setShowRecordsModal={setShowRecordsModal}
+                timer={timer}>
             </NavBar>
-            {started &&
             <Card.Body>
 
                 <Card.Title>Guess The Spot</Card.Title>
@@ -73,60 +65,46 @@ function Controllers({
                 <Card.Subtitle className="mb-2 text-muted">היי {player}</Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">?הידעת את הארץ</Card.Subtitle>
 
-                <Card.Text className="spot-to-guess">
-                {spotToGuess && <h4>{spotToGuess.name}</h4>}
+                <Card.Text as="div" className="spot-to-guess">
+            
+                {started ? 
+                spotToGuess && <h4>{spotToGuess.name}</h4> : 
+                <Button variant='success' size='sm' onClick={()=>{handleStartGuessing(randomSpotId())}}>Start!</Button>}
+                
                 </Card.Text>
 
-                <Card.Text className="messages">
+                <Card.Text as="div" className="messages">
                     { !winner &&
-                        spotToGuess && !spotGuessed ? 
-                        <div>
+                            spotGuessed === null ? 
+                            <div>
                                 <h4>goodLuck</h4>
+                                {preferences.level === 'easy' &&
                                 <Button size='sm' variant="outline-primary" onClick={()=>{next()}}>Skip</Button>
+                                }
                             </div> 
-                        : winner === false && 
-                            <div className="failure-message">
+                            : winner === false ? 
+                                <div className="failure-message">
+                                    {message}
+                                    <div className="failure-buttons">
+                                        {preferences.level === 'easy' &&
+                                        <Button size='sm' variant="outline-warning" onClick={()=>{handleTryAgain()}}>Try Again</Button>
+                                        }
+                                        <Button size='sm' variant="outline-danger" onClick={()=>{handleStartGuessing(randomSpotId())}}>Next</Button>
+                                    </div> 
+                                </div>
+                    
+                            : winner === true &&
+                            <div> 
                                 {message}
-                                <div className="failure-buttons">
-                                    <Button size='sm' variant="outline-warning" onClick={()=>{tryAgain()}}>Try Again</Button>
-                                    <Button size='sm' variant="outline-danger" onClick={()=>{next()}}>Next</Button>
-                                </div> 
+                                <Button size='sm' variant="success" onClick={()=>{handleStartGuessing(randomSpotId())}}>Another One!</Button> 
                             </div>
                     }
-                    { winner === true &&
-                    <div> 
-                        {message}
-                        <Button size='sm' variant="success" onClick={()=>{next()}}>Another One!</Button> 
-                    </div>
-                    }
 
                 </Card.Text>
+    
             </Card.Body>
-    }
         </Card>
         );
     }
     
     export default Controllers;
-    
-{/* <Form>
-    <Form.Row>
-            <Form.Label>Level</Form.Label>
-            <Form.Control as="select" size="sm" custom>
-            <option>Easy</option>
-            <option>Medium</option>
-            <option>Hard</option>
-            </Form.Control>
-            <Form.Label>Choose Region</Form.Label>
-            <Form.Control as="select" size="sm" custom>
-            <option>North</option>
-            <option>South</option>
-            </Form.Control>
-            <Form.Label>Calculate By</Form.Label>
-            <Form.Control as="select" size="sm" custom>
-            <option>Absolute</option>
-            <option>Walk</option>
-            <option>McDonald's</option>
-            </Form.Control>
-    </Form.Row>
-</Form> */}
