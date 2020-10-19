@@ -60,10 +60,6 @@ function NavBar({setShowRecordsModal ,setPrefernces, setShowStartModal, timer, t
             console.log('something went wrong');
         }
     }
-
-    useEffect(() => {
-        console.log(timer)
-    }, [timer])
     
     return (
         <div className="nav-bar">

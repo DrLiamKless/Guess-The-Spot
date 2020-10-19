@@ -84,7 +84,7 @@ function Game() {
                 const player = records[i]
                 if(timeToGuess) {
                     player.averageSuccessTime = player.averageSuccessTime ? 
-                    ((player.averageSuccessTime*player.successes) + timeToGuess / (timeToGuess + 1).toFixed(2)) :
+                    (( (player.averageSuccessTime*player.successes) + timeToGuess ) / (player.successes + 1).toFixed(2)) :
                     timeToGuess
                 }
                 player[isSucceed] = player[isSucceed]+=1
@@ -93,7 +93,7 @@ function Game() {
                 return
             }
         }
-            const newRecord = {name, successes: 0, failures: 0, averageSuccessTime: timeToGuess}
+            const newRecord = {name, successes: 0, failures: 0, averageSuccessTime: timeToGuess || 0}
             newRecord[isSucceed] = newRecord[isSucceed]+=1
             records.push(newRecord);
             setScoreBox(records)
@@ -139,7 +139,7 @@ function Game() {
                     if (distance < 10000) { // 10 km
                         setWinner(true)
                         setMessage(createMessage(distance).winner)
-                        handleScoreBox(player, 'successes', 10-currentTime)
+                        handleScoreBox(player, 'successes', (10-currentTime))
                     } else {
                         setWinner(false)
                         setMessage(createMessage(distance).loser)
@@ -149,7 +149,7 @@ function Game() {
                     if (distance < 1609.344*6) { // 6 miles 
                         setWinner(true)
                         setMessage(createMessage(distance).winner)
-                        handleScoreBox(player, 'successes', 10-currentTime)
+                        handleScoreBox(player, 'successes', (10-currentTime))
                     } else {
                         setWinner(false)
                         setMessage(createMessage(distance).loser)
