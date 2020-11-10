@@ -2,7 +2,7 @@
 
 a Spot-Guesser across the country game.
 
-#### TechnologIes
+#### Technologies
 
 💻 react <br>
 🔥 google maps api 
