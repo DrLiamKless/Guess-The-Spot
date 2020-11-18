@@ -1,16 +1,16 @@
 import firebase from "firebase/app"
 import "firebase/auth"
-import { myDevEnv } from './myenv'
+import { env } from './env/myenv'
 
 const app = firebase.initializeApp({  
-    apiKey: myDevEnv.REACT_APP_FIRE_BASE_API_KEY,
-    authDomain: myDevEnv.REACT_APP_FIRE_BASE_AUTH_DOMAIN,
-    databaseURL: myDevEnv.REACT_APP_FIRE_BASE_DATABASE_URL,
-    projectId: myDevEnv.REACT_APP_FIRE_BASE_PROJECT_ID,
-    storageBucket: myDevEnv.REACT_APP_FIRE_BASE_STORAGEBUCKET,
-    messagingSenderId: myDevEnv.REACT_APP_FIRE_BASE_MESSAGING_SENDER_ID,
-    appId: myDevEnv.REACT_APP_FIRE_BASE_APP_ID,
-    measurementId: myDevEnv.REACT_APP_FIRE_BASE_MEASUREMENT_ID,
+    apiKey: env.apiKey,
+    authDomain: env.authDomain,
+    databaseURL: env.databaseURL,
+    projectId: env.projectId,
+    storageBucket: env.storageBucket,
+    messagingSenderId: env.messagingSenderId,
+    appId: env.appId,
+    measurementId: env.measurementId,
 });
 
 // export const firebase
