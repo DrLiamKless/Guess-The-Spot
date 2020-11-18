@@ -5,26 +5,36 @@ import places from '../../data/places.json';
 import Draggable from 'react-draggable';
 import StartingModal from '../StartingModal';
 import RecordsModal from '../RecordsModal';
+import ProfileModal from '../ProfileModal';
+import { useAuth } from '../../Contexts/AuthContext';
 const getAbsoluteDistance = require('../../helpers/getAbsoluteDistance')
 
 const notEasyPlacesTypes = ["2000-9999 תושבים, ישובים יהודים","ישובים כפריים אחרים לא יהודים" ,"ישובים קהילתיים", "ללא סוג", "מושבים (כפרים שיתופיים) (ב)", "2000-9999 תושבים,ישובים לא יהודים", "10000-19999 תושבים,ישובים לא יהודים", "2000-9999 תושבים,ישובים לא יהודים", "מושבים שיתופיים", "ישובים כפריים יהודים אחרים"]
 const notMediumPlacesTypes = ["2000-9999 תושבים,ישובים לא יהודים", "ללא סוג", "מושבים (כפרים שיתופיים) (ב)", "2000-9999 תושבים,ישובים לא יהודים"]
 
 function Game() {
-
+    const { currentUser } = useAuth();
     const [started, setStarted] = useState();
+
     const [spotToGuess, setSpotToGuess] = useState();
     const [spotGuessed, setSpotGuessed] = useState();
     const [guessDistance, setGuessDistance] = useState();
+
     const [preferences, setPrefernces] = useState({level: 'easy', distance:'absolute', units: 'km'});
+    
     const [message, setMessage] = useState();
+
     const [showStartModal, setShowStartModal] = useState(false);
     const [showRecordsModal, setShowRecordsModal] = useState(false);
+    const [showProfileModal, setShowProfileModal] = useState(false);
+
     const [winner, setWinner] = useState();
-    const [player, setPlayer] = useState();
+
     const [scoreBox, setScoreBox] = useState(JSON.parse(localStorage.getItem('scoreBox')));
+
     const [timer, setTimer] = useState();
     const [timeStopped, setTimeStopped] = useState();
+
 
     useEffect(() => {
         if (timer && timer !== 0 && !timeStopped) {
@@ -81,13 +91,13 @@ function Game() {
         const records = scoreBox ? scoreBox.slice() : [];
         for (let i = 0; i <= records.length; i++) {
             if (records[i] && records[i].name === name) {
-                const player = records[i]
+                const record = records[i]
                 if(timeToGuess) {
-                    player.averageSuccessTime = player.averageSuccessTime ? 
-                    (( (player.averageSuccessTime*player.successes) + timeToGuess ) / (player.successes + 1).toFixed(2)) :
+                    record.averageSuccessTime = record.averageSuccessTime ? 
+                    (( (record.averageSuccessTime*record.successes) + timeToGuess ) / (record.successes + 1).toFixed(2)) :
                     timeToGuess
                 }
-                player[isSucceed] = player[isSucceed]+=1
+                record[isSucceed] = record[isSucceed]+=1
                 setScoreBox(records)
                 localStorage.setItem('scoreBox', JSON.stringify(records))
                 return
@@ -121,7 +131,7 @@ function Game() {
             setSpotGuessed(false);
             setWinner(false);
             setMessage(createMessage(0).outOfTime);
-            handleScoreBox(player, 'failures');
+            handleScoreBox(currentUser.email, 'failures');
             return
         };
 
@@ -139,21 +149,21 @@ function Game() {
                     if (distance < 10000) { // 10 km
                         setWinner(true)
                         setMessage(createMessage(distance).winner)
-                        handleScoreBox(player, 'successes', (10-currentTime))
+                        handleScoreBox(currentUser.email, 'successes', (10-currentTime))
                     } else {
                         setWinner(false)
                         setMessage(createMessage(distance).loser)
-                        handleScoreBox(player, 'failures')
+                        handleScoreBox(currentUser.email, 'failures')
                     }
                 } else if (preferences.units === 'miles') {
                     if (distance < 1609.344*6) { // 6 miles 
                         setWinner(true)
                         setMessage(createMessage(distance).winner)
-                        handleScoreBox(player, 'successes', (10-currentTime))
+                        handleScoreBox(currentUser.email, 'successes', (10-currentTime))
                     } else {
                         setWinner(false)
                         setMessage(createMessage(distance).loser)
-                        handleScoreBox(player, 'failures')
+                        handleScoreBox(currentUser.email, 'failures')
                     }
                 }
             }
@@ -163,53 +173,60 @@ function Game() {
   return (
     <div className="game">
         <StartingModal 
-        setShowStartModal={setShowStartModal}
-        showStartModal={showStartModal}
-        player={player}
-        setPlayer={setPlayer}>
+            setShowStartModal={setShowStartModal}
+            showStartModal={showStartModal}
+            currentUser={currentUser}>
         </StartingModal>
 
+        <ProfileModal 
+            setShowProfileModal={setShowProfileModal}
+            showProfileModal={showProfileModal}
+            currentUser={currentUser}>
+        </ProfileModal>
+
         <RecordsModal 
-        showRecordsModal={showRecordsModal}
-        setShowRecordsModal={setShowRecordsModal}
-        scoreBox={scoreBox}
-        setScoreBox={setScoreBox}>
+            showRecordsModal={showRecordsModal}
+            setShowRecordsModal={setShowRecordsModal}
+            scoreBox={scoreBox}
+            setScoreBox={setScoreBox}>
         </RecordsModal>
 
         <Draggable>
             <div className="game-controllers">
                 <Controllers
-                getSpotToGuess={getSpotToGuess}
-                spotToGuess={spotToGuess}
-                spotGuessed={spotGuessed}
-                winner={winner}
-                setWinner={setWinner}
-                guessDistance={guessDistance}
-                setSpotGuessed={setSpotGuessed}
-                started={started}
-                setPrefernces={setPrefernces}
-                preferences={preferences}
-                message={message}
-                setShowStartModal={setShowStartModal}
-                player={player}
-                showRecordsModal={showRecordsModal}
-                setShowRecordsModal={setShowRecordsModal}
-                handleStartGuessing={handleStartGuessing}
-                handleTryAgain={handleTryAgain}
-                timer={timer}
-                setTimer={setTimer}
-                timeStopped={timeStopped}>
+                    getSpotToGuess={getSpotToGuess}
+                    spotToGuess={spotToGuess}
+                    spotGuessed={spotGuessed}
+                    winner={winner}
+                    setWinner={setWinner}
+                    guessDistance={guessDistance}
+                    setSpotGuessed={setSpotGuessed}
+                    started={started}
+                    setPrefernces={setPrefernces}
+                    preferences={preferences}
+                    message={message}
+                    setShowStartModal={setShowStartModal}
+    
+                    showRecordsModal={showRecordsModal}
+                    setShowRecordsModal={setShowRecordsModal}
+                    handleStartGuessing={handleStartGuessing}
+                    handleTryAgain={handleTryAgain}
+                    timer={timer}
+                    setTimer={setTimer}
+                    timeStopped={timeStopped}
+                    setShowProfileModal={setShowProfileModal}
+                    currentUser={currentUser}>
                 </Controllers>
             </div>
         </Draggable>
 
         <Map 
-        HandleGuess={HandleGuess}
-        places={places}
-        spotToGuess={spotToGuess}
-        spotGuessed={spotGuessed}
-        guessDistance={guessDistance}
-        preferences={preferences}>
+            HandleGuess={HandleGuess}
+            places={places}
+            spotToGuess={spotToGuess}
+            spotGuessed={spotGuessed}
+            guessDistance={guessDistance}
+            preferences={preferences}>
         </Map>
 
     </div>

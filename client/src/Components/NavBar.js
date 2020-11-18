@@ -1,6 +1,7 @@
+import { Circle } from '@react-google-maps/api';
 import React, { useEffect, useState } from 'react';
 import { Navbar } from 'react-bootstrap'
-import { InfoCircle, Trophy, Alarm } from 'react-bootstrap-icons';
+import { InfoCircle, Trophy, Alarm, PersonCircle, Person } from 'react-bootstrap-icons';
 
 
 const selectorStyle = {
@@ -25,7 +26,14 @@ const trophyButtonStyle = {
     cursor: 'pointer',
 }
 
-function NavBar({setShowRecordsModal ,setPrefernces, setShowStartModal, timer, timeStopped }) {
+const profileButtonStyle = {
+    position: 'absolute',
+    top: 5,
+    right: 240,
+    cursor: 'pointer',
+}
+
+function NavBar({setShowProfileModal ,setShowRecordsModal ,setPrefernces, setShowStartModal, timer, timeStopped }) {
 
     const [level, setLevel] = useState('easy')
     const [distance, setDistance] = useState('absolute')
@@ -85,6 +93,7 @@ function NavBar({setShowRecordsModal ,setPrefernces, setShowStartModal, timer, t
                     </select>
                     <InfoCircle variant="light" onClick={()=>{setShowStartModal(true)}} style={infoButtonStyle}/>
                     <Trophy variant="light" onClick={()=>{setShowRecordsModal(true)}} style={trophyButtonStyle}/>
+                    <PersonCircle variant="light" onClick={()=>{setShowProfileModal(true)}} style={profileButtonStyle}/>
                     <div>
                         <Alarm className={'alarm'}></Alarm>
                     <div className={'timer'}>
