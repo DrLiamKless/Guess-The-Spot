@@ -1,7 +1,6 @@
 import React from 'react';
 import { Card, Button } from 'react-bootstrap'
 import NavBar from './NavBar'
-import { useAuth } from '../Contexts/AuthContext'
 
 const cardStyle = {
     position:'fixed',
@@ -20,6 +19,7 @@ const cardStyle = {
 
 function Controllers({ 
     setShowRecordsModal, 
+    player, 
     setWinner, 
     setShowStartModal, 
     message, 
@@ -34,11 +34,8 @@ function Controllers({
     handleStartGuessing,
     handleTryAgain,
     timer,
-    timeStopped,
-    setShowProfileModal,
+    timeStopped
 }) {
-
-    const { currentUser } = useAuth()
     
     const randomSpotId = () => (
         preferences.level === 'easy' ? Math.floor(Math.random() * 377) 
@@ -59,14 +56,13 @@ function Controllers({
                 setShowStartModal={setShowStartModal}
                 timeStopped={timeStopped}
                 setShowRecordsModal={setShowRecordsModal}
-                timer={timer}
-                setShowProfileModal={setShowProfileModal}>
+                timer={timer}>
             </NavBar>
             <Card.Body>
 
                 <Card.Title>Guess The Spot</Card.Title>
                 
-                <Card.Subtitle className="mb-2 text-muted">{currentUser.email} היי</Card.Subtitle>
+                <Card.Subtitle className="mb-2 text-muted">היי {player}</Card.Subtitle>
                 <Card.Subtitle className="mb-2 text-muted">?הידעת את הארץ</Card.Subtitle>
 
                 <Card.Text as="div" className="spot-to-guess">
