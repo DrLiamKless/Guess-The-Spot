@@ -1,6 +1,6 @@
 import firebase from "firebase/app"
 import "firebase/auth"
-import { myDevEnv } from './myDevEnv'
+import { myDevEnv } from './myenv'
 
 const app = firebase.initializeApp({  
     apiKey: myDevEnv.REACT_APP_FIRE_BASE_API_KEY,
@@ -13,6 +13,7 @@ const app = firebase.initializeApp({
     measurementId: myDevEnv.REACT_APP_FIRE_BASE_MEASUREMENT_ID,
 });
 
+// export const firebase
 export const auth = app.auth()
 
 export default app

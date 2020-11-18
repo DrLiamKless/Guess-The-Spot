@@ -39,7 +39,7 @@ function Forgot() {
                     <Form.Label>Email</Form.Label>
                     <Form.Control type="email" ref={emailRef}></Form.Control>
                 </Form.Group>
-                <Button disable={loading} type="submut" className="w-100">Log In</Button>
+                <Button disable={loading} type="submit" className="w-100">Log In</Button>
             </Form>
         </Card.Body>
     </Card>

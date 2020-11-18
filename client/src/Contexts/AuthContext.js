@@ -1,5 +1,4 @@
 import React, { useContext, useState, useEffect } from 'react'
-import { ArrowRight } from 'react-bootstrap-icons'
 import { auth } from '../firbase'
 
 const AuthContext = React.createContext()
@@ -23,7 +22,7 @@ export function AuthProvider({ children }) {
     function logout() {
         auth.signOut()
     }
-    
+
     function resetPassword(email) {
         return auth.sendPasswordResetEmail(email);
     }
@@ -42,7 +41,7 @@ export function AuthProvider({ children }) {
         login,
         signup,
         logout,
-        resetPassword
+        resetPassword,
     }
     
     return (

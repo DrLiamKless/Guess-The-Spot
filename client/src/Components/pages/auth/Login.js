@@ -22,7 +22,7 @@ function Login() {
         await login(emailRef.current.value, passwordRef.current.value);
         history.push("/")
     } catch(err) {
-        setError("failed to ךם עןמ")
+        setError("failed to login")
     }
     setLoading(false)
   }
@@ -43,7 +43,7 @@ function Login() {
                     <Form.Label>Passowrd</Form.Label>
                     <Form.Control type="password" ref={passwordRef}></Form.Control>
                 </Form.Group>
-                <Button disable={loading} type="submut" className="w-100">Log In</Button>
+                <Button disable={loading} type="submit" className="w-100">Log In</Button>
             </Form>
         </Card.Body>
     </Card>
@@ -53,6 +53,7 @@ function Login() {
     <div className="auth-bottom">
         Need an account? <Link preventDefault to="/signup">Sign Up</Link>
     </div>
+  
 
     </div>
   );

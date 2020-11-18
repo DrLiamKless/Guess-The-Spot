@@ -52,7 +52,7 @@ function Signup() {
                     <Form.Label>Passowrd Confirm</Form.Label>
                     <Form.Control type="password" ref={passwordConfirmRef}></Form.Control>
                 </Form.Group>
-                <Button disable={loading} type="submut" className="w-100">Submit</Button>
+                <Button disable={loading} type="submit" className="w-100">Submit</Button>
             </Form>
         </Card.Body>
     </Card>
