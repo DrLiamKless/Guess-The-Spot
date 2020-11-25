@@ -10,5 +10,8 @@ a Spot-Guesser across the country game.
 👮‍♂️ Govermental places data <br>
 🛠 bootstrap <br>
 
-##### app demo
+##### App demo
 ![app](./readme-files/guess-the-spot.gif)
+
+##### You can play it here
+https://guess-the-spot-dev.web.app/
